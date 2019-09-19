@@ -4,6 +4,10 @@ inputs:
   app-name:
     description: 'Name of the Azure Web App'
     required: true
+  slot-name:
+    description: 'Enter an existing Slot other than the Production slot'
+    required: false
+    default: 'production'
   images:
     description: "Specify the fully qualified container image(s) name. For example, 'myregistry.azurecr.io/nginx:latest' or 'python:3.7.2-alpine/'. For multi-container scenario multiple container image names can be provided (multi-line separated)"
     required: true

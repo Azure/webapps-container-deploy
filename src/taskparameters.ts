@@ -1,8 +1,10 @@
 import * as core from '@actions/core';
+
 import { AzureResourceFilterUtility } from "pipelines-appservice-lib/lib/RestUtilities/AzureResourceFilterUtility";
 import { IAuthorizationHandler } from "pipelines-appservice-lib/lib/ArmRest/IAuthorizationHandler";
-import { getHandler } from 'pipelines-appservice-lib/lib/AuthorizationHandlerFactory';
 import { exist } from 'pipelines-appservice-lib/lib/Utilities/packageUtility';
+import { getHandler } from 'pipelines-appservice-lib/lib/AuthorizationHandlerFactory';
+
 import fs = require('fs');
 
 export class TaskParameters {
@@ -16,9 +18,11 @@ export class TaskParameters {
     private _kind: string;
     private _isLinux: boolean;
     private _isMultiContainer: boolean;
+    private _slotName: string;
 
     private constructor() {
         this._appName = core.getInput('app-name', { required: true });
+        this._slotName = core.getInput('slot-name');
         this._images = core.getInput('images');
         this._multiContainerConfigFile = core.getInput('configuration-file');
         this._containerCommand = core.getInput('container-command');
@@ -35,6 +39,10 @@ export class TaskParameters {
 
     public get appName() {
         return this._appName;
+    }
+
+    public get slotName(){
+        return this._slotName;
     }
 
     public get images() {

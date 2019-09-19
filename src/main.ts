@@ -24,7 +24,7 @@ async function main() {
         await taskParams.getResourceDetails();
 
         core.debug("Predeployment Step Started");
-        var appService = new AzureAppService(taskParams.endpoint, taskParams.resourceGroupName, taskParams.appName);
+        var appService = new AzureAppService(taskParams.endpoint, taskParams.resourceGroupName, taskParams.appName, taskParams.slotName);
         var appServiceUtility = new AzureAppServiceUtility(appService);
         
         var kuduService = await appServiceUtility.getKuduService();
