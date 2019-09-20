@@ -10,14 +10,14 @@ This repository contains [GitHub Action for Azure WebApp for containers](https:/
 
 If you are looking for a Github Action to deploy to an Azure WebApp (Windows or Linux), consider using [Azure WebApp](https://github.com/Azure/webapps-deploy/blob/master/action.yml) action.
 
-The definition of this Github Action is in [action.yml](https://github.com/Azure/webapps-deploy/blob/master/action.yml).
+The definition of this Github Action is in [action.yml](https://github.com/Azure/webapps-container-deploy/blob/master/action.yml).
 
 # End-to-End Sample Workflows
 
 ## Dependencies on other Github Actions
 * [Checkout](https://github.com/actions/checkout) Checkout your Git repository content into Github Actions agent.
 * [Azure Login](https://github.com/Azure/actions) Login with your Azure credentials for Web app deployment authentication. Once login is done, the next set of Azure actions in the workflow can re-use the same session within the job.
-* [docker-login](https://github.com/Azure/container-actions/tree/master/docker-login) : Actions to [log in to a private container registry](https://docs.docker.com/engine/reference/commandline/login/) such as [Azure Container registry](https://azure.microsoft.com/en-us/services/container-registry/). Once login is done, the next set of Actions in the workflow can perform tasks such as building, tagging and pushing containers.
+* [docker-login](https://github.com/Azure/docker-login) : Actions to [log in to a private container registry](https://docs.docker.com/engine/reference/commandline/login/) such as [Azure Container registry](https://azure.microsoft.com/en-us/services/container-registry/). Once login is done, the next set of Actions in the workflow can perform tasks such as building, tagging and pushing containers.
 
 ## Azure Service Principle for RBAC
 You may want to create an [Azure Service Principal for RBAC](https://docs.microsoft.com/en-us/azure/role-based-access-control/overview) and add them as a Github Secret in your repository.
@@ -63,7 +63,7 @@ jobs:
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
     
-    - uses: azure/k8s-actions/docker-login@v1
+    - uses: azure/docker-login@v1
       with:
         login-server: contoso.azurecr.io
         username: ${{ secrets.REGISTRY_USERNAME }}
@@ -77,7 +77,10 @@ jobs:
       with:
         app-name: 'node-rnc'
         images: 'contoso.azurecr.io/nodejssampleapp:${{ github.sha }}'
-
+    
+    - name: Azure logout
+      run: |
+        az logout
 ```
 
 # Contributing
