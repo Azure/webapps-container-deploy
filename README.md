@@ -23,21 +23,12 @@ The definition of this Github Action is in [action.yml](https://github.com/Azure
 You may want to create an [Azure Service Principal for RBAC](https://docs.microsoft.com/en-us/azure/role-based-access-control/overview) and add them as a Github Secret in your repository.
 1. Download Azure CLI from [here](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest), run `az login` to login with your Azure credentials.
 2. Run Azure CLI command
-```bash  
-
+```
    az ad sp create-for-rbac --name "myApp" --role contributor \
                             --scopes /subscriptions/{subscription-id}/resourceGroups/{resource-group} \
                             --sdk-auth
-                            
-  # Replace {subscription-id}, {resource-group} with the subscription, resource group details of the WebApp
-```
-  * You can further scope down the Azure Credentials to the Web App using scope attribute. For example, 
-  ```
-   az ad sp create-for-rbac --name "myApp" --role contributor \
-                            --scopes /subscriptions/{subscription-id}/resourceGroups/{resource-group}/providers/Microsoft.Web/sites/{app-name} \
-                            --sdk-auth
 
-  # Replace {subscription-id}, {resource-group}, and {app-name} with the names of your subscription, resource group, and Azure Web App.
+  # Replace {subscription-id}, {resource-group} with the subscription, resource group details of your Azure function app.
 ```
 3. Paste the json response from above Azure CLI to your Github Repository > Settings > Secrets > Add a new secret > **AZURE_CREDENTIALS**
 4. Now in the workflow file in your branch: `.github/workflows/workflow.yml` replace the secret in Azure login action with your secret (Refer to the example below)
@@ -59,11 +50,11 @@ jobs:
       uses: actions/checkout@master
     
     - name: 'Login via Azure CLI'
-      uses: azure/actions/login@v1
+      uses: azure/actions/login@master
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
     
-    - uses: azure/k8s-actions/docker-login@v1
+    - uses: azure/k8s-actions/docker-login@master
       with:
         login-server: contoso.azurecr.io
         username: ${{ secrets.REGISTRY_USERNAME }}
@@ -73,7 +64,7 @@ jobs:
         docker build . -t contoso.azurecr.io/nodejssampleapp:${{ github.sha }}
         docker push contoso.azurecr.io/nodejssampleapp:${{ github.sha }} 
       
-    - uses: azure/webapps-container-deploy@v1
+    - uses: azure/webapps-container-deploy@master
       with:
         app-name: 'node-rnc'
         images: 'contoso.azurecr.io/nodejssampleapp:${{ github.sha }}'
