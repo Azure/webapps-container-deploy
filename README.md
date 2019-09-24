@@ -20,9 +20,9 @@ The definition of this Github Action is in [action.yml](https://github.com/Azure
 * [docker-login](https://github.com/Azure/docker-login) : Actions to [log in to a private container registry](https://docs.docker.com/engine/reference/commandline/login/) such as [Azure Container registry](https://azure.microsoft.com/en-us/services/container-registry/). Once login is done, the next set of Actions in the workflow can perform tasks such as building, tagging and pushing containers.
 
 ## Azure Service Principle for RBAC
-You may want to create an [Azure Service Principal for RBAC](https://docs.microsoft.com/en-us/azure/role-based-access-control/overview) and add them as a Github Secret in your repository.
+For using any credentials like Azure Service Principal in your workflow, add them as [secrets](https://help.github.com/en/articles/virtual-environments-for-github-actions#creating-and-using-secrets-encrypted-variables) in the GitHub repository and then refer them in the workflow.
 1. Download Azure CLI from [here](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest), run `az login` to login with your Azure credentials.
-2. Run Azure CLI command
+2. Run Azure CLI command to create an [Azure Service Principal for RBAC](https://docs.microsoft.com/en-us/azure/role-based-access-control/overview):
 ```bash  
 
    az ad sp create-for-rbac --name "myApp" --role contributor \
@@ -30,6 +30,15 @@ You may want to create an [Azure Service Principal for RBAC](https://docs.micros
                             --sdk-auth
                             
   # Replace {subscription-id}, {resource-group} with the subscription, resource group details of the WebApp
+  # The command should output a JSON object similar to this:
+
+  {
+    "clientId": "<GUID>",
+    "clientSecret": "<GUID>",
+    "subscriptionId": "<GUID>",
+    "tenantId": "<GUID>",
+    (...)
+  }
 ```
   * You can further scope down the Azure Credentials to the Web App using scope attribute. For example, 
   ```
