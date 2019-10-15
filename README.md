@@ -16,7 +16,7 @@ The definition of this Github Action is in [action.yml](https://github.com/Azure
 
 ## Dependencies on other Github Actions
 * [Checkout](https://github.com/actions/checkout) Checkout your Git repository content into Github Actions agent.
-* [Azure Login](https://github.com/Azure/actions) Login with your Azure credentials for Web app deployment authentication. Once login is done, the next set of Azure actions in the workflow can re-use the same session within the job.
+* [Azure Login](https://github.com/Azure/login) Login with your Azure credentials for Web app deployment authentication. Once login is done, the next set of Azure actions in the workflow can re-use the same session within the job.
 * [docker-login](https://github.com/Azure/docker-login) : Actions to [log in to a private container registry](https://docs.docker.com/engine/reference/commandline/login/) such as [Azure Container registry](https://azure.microsoft.com/en-us/services/container-registry/). Once login is done, the next set of Actions in the workflow can perform tasks such as building, tagging and pushing containers.
 
 ## Azure Service Principle for RBAC
