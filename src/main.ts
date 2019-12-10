@@ -1,12 +1,14 @@
 import * as core from '@actions/core';
 import * as crypto from "crypto";
 
-import { AzureAppService } from 'pipelines-appservice-lib/lib/ArmRest/azure-app-service';
-import { AzureAppServiceUtility } from 'pipelines-appservice-lib/lib/RestUtilities/AzureAppServiceUtility';
-import { ContainerDeploymentUtility } from 'pipelines-appservice-lib/lib/RestUtilities/ContainerDeploymentUtility';
-import { KuduServiceUtility } from 'pipelines-appservice-lib/lib/RestUtilities/KuduServiceUtility';
+import { AuthorizerFactory } from "azure-actions-webclient/AuthorizerFactory";
+import { AzureAppService } from 'azure-actions-appservice-rest/Arm/azure-app-service';
+import { AzureAppServiceUtility } from 'azure-actions-appservice-rest/Utilities/AzureAppServiceUtility';
+import { ContainerDeploymentUtility } from 'azure-actions-appservice-rest/Utilities/ContainerDeploymentUtility';
+import { IAuthorizer } from 'azure-actions-webclient/Authorizer/IAuthorizer';
+import { KuduServiceUtility } from 'azure-actions-appservice-rest/Utilities/KuduServiceUtility';
 import { TaskParameters } from './taskparameters';
-import { addAnnotation } from 'pipelines-appservice-lib/lib/RestUtilities/AnnotationUtility';
+import { addAnnotation } from 'azure-actions-appservice-rest/Utilities/AnnotationUtility';
 
 var prefix = !!process.env.AZURE_HTTP_USER_AGENT ? `${process.env.AZURE_HTTP_USER_AGENT}` : "";
 
@@ -20,7 +22,8 @@ async function main() {
         let userAgentString = (!!prefix ? `${prefix}+` : '') + `GITHUBACTIONS_${actionName}_${usrAgentRepo}`;
         core.exportVariable('AZURE_HTTP_USER_AGENT', userAgentString);
         
-        var taskParams = TaskParameters.getTaskParams();
+        let endpoint: IAuthorizer = await AuthorizerFactory.getAuthorizer();
+        var taskParams = TaskParameters.getTaskParams(endpoint);
         await taskParams.getResourceDetails();
 
         core.debug("Predeployment Step Started");

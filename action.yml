@@ -1,5 +1,5 @@
 name: 'Azure WebApp Container'
-description: 'Deploy Container Web Apps to Azure'
+description: 'Deploy Container Web Apps to Azure. github.com/Azure/Actions'
 inputs: 
   app-name:
     description: 'Name of the Azure Web App'
