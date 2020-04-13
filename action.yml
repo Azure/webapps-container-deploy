@@ -1,9 +1,11 @@
+# This action is ARCHIVED, update your workflows to use the new action azure/webapps-deploy@v2 which can deploy to both Webapps and Webapp for containers.
 name: 'Azure WebApp Container'
 description: 'Deploy Container Web Apps to Azure. github.com/Azure/Actions'
 inputs: 
   app-name:
     description: 'Name of the Azure Web App'
     required: true
+    deprecationMessage: 'This action is ARCHIVED and will not receive any updates, update your workflows to use azure/webapps-deploy@v2'
   slot-name:
     description: 'Enter an existing Slot other than the Production slot'
     required: false
