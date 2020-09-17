@@ -1,3 +1,9 @@
+ ***IMPORTANT NOTICE:***
+ 
+***This action is ARCHIVED and will not receive any updates. Please update your existing workflows to use the action azure/webapps-deploy@v2 which can deploy to both Webapps and Webapp for containers. Refer to https://github.com/Azure/webapps-deploy for more details about the action.***  
+***For example, the action `azure/webapps-container-deploy@v1` should be replaced with `azure/webapps-deploy@v2` in your workflows.***
+
+
 # GitHub Action for deploying to Azure Web App for Containers
 
 [GitHub Actions](https://help.github.com/en/articles/about-github-actions) gives you the flexibility to build an automated software development lifecycle workflow. 
@@ -6,13 +12,10 @@ You can automate your workflows to deploy [Azure Web Apps for Containers](https:
 
 Get started today with a [free Azure account](https://azure.com/free/open-source)!
 
-This repository contains [GitHub Action for Azure WebApp for containers](https://github.com/Azure/webapps-container-deploy/blob/master/action.yml) to deploy to Azure WebApp for Containers. Supports deploying a single container image or multiple containers.
-
-If you are looking for a Github Action to deploy to an Azure WebApp (Windows or Linux), consider using [Azure WebApp](https://github.com/Azure/webapps-deploy/blob/master/action.yml) action.
+If you are looking for a Github Action to deploy to an Azure WebApp (Windows or Linux) or Azure WebApp for Containers (single container image or multiple containers), consider using [Azure WebApp](https://github.com/Azure/webapps-deploy/blob/master/action.yml) action.
 
 For deploying container images to Kubernetes, consider using [Kubernetes deploy](https://github.com/Azure/k8s-deploy) action. This action requires that the cluster context be set earlier in the workflow by using either the [Azure/aks-set-context](https://github.com/Azure/aks-set-context/tree/releases/v1) action or the [Azure/k8s-set-context](https://github.com/Azure/k8s-set-context/tree/releases/v1) action.
 
-The definition of this Github Action is in [action.yml](https://github.com/Azure/webapps-container-deploy/blob/master/action.yml).
 
 # End-to-End Sample Workflows
 
@@ -84,7 +87,7 @@ jobs:
         docker build . -t contoso.azurecr.io/nodejssampleapp:${{ github.sha }}
         docker push contoso.azurecr.io/nodejssampleapp:${{ github.sha }} 
       
-    - uses: azure/webapps-container-deploy@v1
+    - uses: azure/webapps-deploy@v2
       with:
         app-name: 'node-rnc'
         images: 'contoso.azurecr.io/nodejssampleapp:${{ github.sha }}'
